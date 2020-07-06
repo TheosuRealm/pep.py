@@ -63,13 +63,9 @@ def instantRestart(fro, chan, message):
 def faq(fro, chan, message):
 	# TODO: Unhardcode this
 	messages = {
-		"rules": "Please make sure to check (osu!thailand's rules)[https://ainu.pw/doc/rules].",
 		"swearing": "Please don't abuse swearing",
 		"spam": "Please don't spam",
 		"offend": "Please don't offend other players",
-		"github": "(osu!Ainu's Github page!)[https://github.com/osuthailand]",
-		"discord": "(Join Ainu Discord!)[https://discord.gg/Qp3WQU8]",
-		"changelog": "Check the (changelog)[https://ainu.pw/changelog] !",
 		"english": "Please keep this channel in english.",
 		"topic": "Can you please drop the topic and talk about something else?",
 		"lines": "Please try to keep your sentences on a single line to avoid getting silenced."
@@ -702,7 +698,7 @@ def getBeatmapRequest(fro, chan, message): # Grab a random beatmap request. TODO
 		username = userUtils.getUsername(request['userid'])
 		mapData = glob.db.fetch("SELECT song_name, ranked FROM beatmaps WHERE beatmap_id = {} ORDER BY difficulty_std DESC LIMIT 1;".format(request['bid']))
 		glob.db.execute("DELETE FROM rank_requests WHERE id = {};".format(request['id']))
-		return "[https://ainu.pw/u/{userID} {username}] nominated beatmap: [https://osu.ppy.sh/b/{beatmapID} {songName}] for status change. {AinuBeatmapLink}The request has been deleted, so please decide it's status.".format(userID=request['userid'], username=username, beatmapID=request['bid'], songName=mapData['song_name'], AinuBeatmapLink='[https://ainu.pw/b/{} Ainu beatmap Link]. '.format(request['bid']))
+		return "[https://theosurealm.tk/u/{userID} {username}] nominated beatmap: [https://osu.ppy.sh/b/{beatmapID} {songName}] for status change. {AinuBeatmapLink}The request has been deleted, so please decide it's status.".format(userID=request['userid'], username=username, beatmapID=request['bid'], songName=mapData['song_name'], AinuBeatmapLink='[https://theosurealm.tk/b/{} Ainu beatmap Link]. '.format(request['bid']))
 	else:
 		return "All nominations have been checked. Thank you for your hard work! :)"
 
@@ -1375,8 +1371,8 @@ def editMap(fro, chan, message): # Using Atoka's editMap with Aoba's edit
 			else:
 				webhookdesp = "{} has been {} by {}".format(beatmapData["song_name"], status, name)
 
-			webhook = aobaHelper.Webhook(glob.conf.config["discord"]["ranked"], color=0xadd8e6, footer="This beatmap was {} on osu!Ainu".format(status))
-			webhook.set_author(name=name, icon='https://a.ainu.pw/{}'.format(str(userID)), url="https://ainu.pw/u/{}".format(str(userID)))
+			webhook = aobaHelper.Webhook(glob.conf.config["discord"]["ranked"], color=0xadd8e6, footer="This beatmap was {} on The Realm".format(status))
+			webhook.set_author(name=name, icon='https://a.theosurealm.tk/{}'.format(str(userID)), url="https://theosurealm.tk/u/{}".format(str(userID)))
 			webhook.set_title(title="New {} map!".format(status), url='https://osu.ppy.sh/s/{}'.format(str(beatmapData["beatmapset_id"])))
 			webhook.set_desc(webhookdesp)
 			webhook.set_image("https://assets.ppy.sh/beatmaps/{}/covers/cover.jpg".format(str(beatmapData["beatmapset_id"])))
@@ -1392,7 +1388,7 @@ def postAnnouncement(fro, chan, message): # Post to #announce ingame
 
 	if glob.conf.config["discord"]["enable"] == True:
 		webhook = aobaHelper.Webhook(glob.conf.config["discord"]["announcement"], color=0xadd8e6, footer="This announcement was posted in-game")
-		webhook.set_author(name=name, icon='https://a.ainu.pw/{}'.format(str(userID)), url="https://ainu.pw/u/{}".format(str(userID)))
+		webhook.set_author(name=name, icon='https://a.theosurealm.tk/{}'.format(str(userID)), url="https://theosurealm.tk/u/{}".format(str(userID)))
 		webhook.set_title(title="=-= ANNOUNCEMENT =-=")
 		webhook.set_desc(announcement)
 		webhook.post()
@@ -1523,7 +1519,7 @@ def randomBeatmap(fro, chan, message):
 			return "Error in LETS API call ({}).".format(data["message"])
 		else:
 			raise exceptions.apiException()
-	msg = "[https://ainu.pw/b/{beatmapID} {beatmapSong}] - 95%: {pp95}pp | 98%: {pp98}pp | 99% {pp99}pp | 100%: {pp100}pp | Stars: {difficulty} / BPM: {bpm} / AR: {ar}".format(beatmapID=sql["beatmap_id"], beatmapSong=sql["song_name"], difficulty=round(sql["difficulty_std"], 2), bpm=sql["bpm"], ar=data["ar"], pp100=round(data["pp"][0], 2), pp99=round(data["pp"][1], 2), pp98=round(data["pp"][2], 2), pp95=round(data["pp"][3], 2))
+	msg = "[https://theosurealm.tk/b/{beatmapID} {beatmapSong}] - 95%: {pp95}pp | 98%: {pp98}pp | 99% {pp99}pp | 100%: {pp100}pp | Stars: {difficulty} / BPM: {bpm} / AR: {ar}".format(beatmapID=sql["beatmap_id"], beatmapSong=sql["song_name"], difficulty=round(sql["difficulty_std"], 2), bpm=sql["bpm"], ar=data["ar"], pp100=round(data["pp"][0], 2), pp99=round(data["pp"][1], 2), pp98=round(data["pp"][2], 2), pp95=round(data["pp"][3], 2))
 	return msg
 
 """
@@ -1546,9 +1542,6 @@ commands = [
 	}, {
 		"trigger": "!report",
 		"callback": report
-	}, {
-		"trigger": "!help",
-		"response": "Click (here)[https://ainu.pw/index.php?p=16&id=4] for full command list"
 	}, {
 		"trigger": "!ppboard",
 		"syntax": "<relax/vanilla>",
